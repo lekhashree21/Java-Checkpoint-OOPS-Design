@@ -90,65 +90,76 @@ Salary: 36000.00
 
 import java.util.Scanner;
 
-class BankAccount {
-    int accountNumber;
-    double balance;
+abstract class Employee {
+    private int employeeId;
+    private String employeeName;
 
-    BankAccount(int number, double balance) {
-        this.accountNumber = number;
-        this.balance = balance;
+    Employee(int id, String name) {
+        this.employeeId = id;
+        this.employeeName = name;
     }
 
-    double calculateFinalBalance() {
-        return balance;
+    public int getEmployeeId() {
+        return employeeId;
+    }
+
+    public String getEmployeeName() {
+        return employeeName;
+    }
+
+    abstract double calculateSalary();
+}
+
+class FullTimeEmployee extends Employee {
+    double salary;
+
+    FullTimeEmployee(int id, String name, double salary) {
+        super(id, name);
+        this.salary = salary;
+    }
+
+    double calculateSalary() {
+        return salary;
     }
 }
 
-class SavingsAccount extends BankAccount {
-    double interestRate;
+class ContractEmployee extends Employee {
+    int days;
+    double rate;
 
-    SavingsAccount(int number, double balance, double rate) {
-        super(number, balance);
-        this.interestRate = rate;
+    ContractEmployee(int id, String name, int days, double rate) {
+        super(id, name);
+        this.days = days;
+        this.rate = rate;
     }
 
-    double calculateFinalBalance() {
-        return balance + (balance * interestRate / 100);
-    }
-}
-
-class CurrentAccount extends BankAccount {
-    double overdraftLimit;
-
-    CurrentAccount(int number, double balance, double limit) {
-        super(number, balance);
-        this.overdraftLimit = limit;
-    }
-
-    double calculateFinalBalance() {
-        return balance + overdraftLimit;
+    double calculateSalary() {
+        return days * rate;
     }
 }
 
-public class Banking-Account-Management {
+public class Employee-Salary-Processing {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
-        int type = sc.nextInt();
-        int number = sc.nextInt();
-        double balance = sc.nextDouble();
+        int choice = sc.nextInt();
+        int id = sc.nextInt();
+        String name = sc.next();
 
-        BankAccount account;
+        Employee e;
 
-        if (type == 1) {
-            double rate = sc.nextDouble();
-            account = new SavingsAccount(number, balance, rate);
+        if (choice == 1) {
+            double amount = sc.nextDouble();
+            e = new FullTimeEmployee(id, name, amount);
         } else {
-            double limit = sc.nextDouble();
-            account = new CurrentAccount(number, balance, limit);
+            int d = sc.nextInt();
+            double r = sc.nextDouble();
+            e = new ContractEmployee(id, name, d, r);
         }
 
-        System.out.printf("%.2f%n", account.calculateFinalBalance());
+        System.out.println("Employee ID: " + e.getEmployeeId());
+        System.out.println("Employee Name: " + e.getEmployeeName());
+        System.out.printf("Salary: %.2f%n", e.calculateSalary());
 
         sc.close();
     }
