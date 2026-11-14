@@ -1,0 +1,130 @@
+# Online Payment Processing
+
+## Problem Statement
+
+An online shopping platform supports multiple payment methods. Each payment method charges a different transaction fee.
+
+Design the program using the following OOPS structure:
+
+### Interface: `Payment`
+
+Create an interface named `Payment`.
+
+**Method:**
+
+```java
+double calculateFee(double amount)
+```
+
+### Implementation Classes
+
+Create the following implementation classes:
+
+- `CreditCardPayment`
+- `UpiPayment`
+- `WalletPayment`
+
+### Fee Rules
+
+| Payment Method | Transaction Fee |
+|---|---:|
+| Credit Card | 2% |
+| UPI | 0.5% |
+| Wallet | 1% |
+
+### Final Amount Calculation
+
+```text
+Final Amount = Payment Amount + Transaction Fee
+```
+
+In the `main()` method, use a `Payment` reference to demonstrate **runtime polymorphism**.
+
+## Input Format
+
+- The first line contains an integer `paymentType`.
+  - `1` represents Credit Card.
+  - `2` represents UPI.
+  - `3` represents Wallet.
+- The second line contains `paymentAmount` as a `double`.
+
+## Output Format
+
+Print the following:
+
+- Payment amount as a **double formatted to exactly two decimal places**.
+- Transaction fee as a **double formatted to exactly two decimal places**.
+- Final amount as a **double formatted to exactly two decimal places**.
+
+## Constraints
+
+- `1 ≤ paymentType ≤ 3`
+- `0.0 < paymentAmount ≤ 1000000.0`
+
+## Sample Input
+
+```text
+2
+10000.0
+```
+
+## Sample Output
+
+```text
+Payment Amount: 10000.00
+Transaction Fee: 50.00
+Final Amount: 10050.00
+```
+
+## Solution
+import java.util.Scanner;
+
+interface Payment {
+    double calculateFee(double amount);
+}
+
+class CreditCardPayment implements Payment {
+    public double calculateFee(double amount) {
+        return amount * 2 / 100;
+    }
+}
+
+class UpiPayment implements Payment {
+    public double calculateFee(double amount) {
+        return amount * 0.5 / 100;
+    }
+}
+
+class WalletPayment implements Payment {
+    public double calculateFee(double amount) {
+        return amount * 1 / 100;
+    }
+}
+
+public class Online-Payment-Processing {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int type = sc.nextInt();
+        double amount = sc.nextDouble();
+
+        Payment p;
+
+        if (type == 1) {
+            p = new CreditCardPayment();
+        } else if (type == 2) {
+            p = new UpiPayment();
+        } else {
+            p = new WalletPayment();
+        }
+
+        double fee = p.calculateFee(amount);
+        double total = amount + fee;
+
+        System.out.printf("Payment Amount: %.2f%n", amount);
+        System.out.printf("Transaction Fee: %.2f%n", fee);
+        System.out.printf("Final Amount: %.2f%n", total);
+
+        sc.close();
+    }
+}
