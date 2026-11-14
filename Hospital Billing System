@@ -1,0 +1,191 @@
+#  Hospital Billing System
+
+## Problem Statement
+
+A hospital calculates consultation charges differently depending on the type of medical service. Emergency consultation also includes additional test charges.
+
+Design the program using the following OOPS structure:
+
+### Abstract Class: `Doctor`
+
+Create an **abstract class** named `Doctor`.
+
+**Field:**
+- `double consultationCharge`
+
+**Constructor:**
+- Create a constructor to initialize `consultationCharge`.
+
+**Abstract Method:**
+
+```java
+String getDoctorType()
+```
+
+**Concrete Method:**
+
+```java
+double calculateTotalBill(double testCharges)
+```
+
+The base implementation must return only the consultation charge.
+
+### Derived Classes
+
+Create the following derived classes:
+
+- `GeneralPhysician`
+- `Specialist`
+- `EmergencyDoctor`
+
+### Consultation Charges
+
+| Doctor Type | Consultation Charge |
+|---|---:|
+| General Physician | 500.0 |
+| Specialist | 1000.0 |
+| Emergency Doctor | 1500.0 |
+
+### EmergencyDoctor
+
+The `EmergencyDoctor` class must override:
+
+```java
+double calculateTotalBill(double testCharges)
+```
+
+This method must include the test charges.
+
+### Billing Calculation
+
+**For other doctor types:**
+
+```text
+Total Bill = Consultation Charge
+```
+
+**For Emergency Doctor:**
+
+```text
+Total Bill = Consultation Charge + Test Charges
+```
+
+Each derived class must override `getDoctorType()`.
+
+Use a `Doctor` reference in `main()` to demonstrate **runtime polymorphism**.
+
+## Input Format
+
+- The first line contains an integer `doctorType`.
+  - `1` represents General Physician.
+  - `2` represents Specialist.
+  - `3` represents Emergency Doctor.
+- The second line contains `testCharges` as a `double`.
+
+## Output Format
+
+Print the following:
+
+- Doctor type as a string.
+- Consultation charge as a **double formatted to exactly two decimal places**.
+- Test charges as a **double formatted to exactly two decimal places**.
+- Total bill as a **double formatted to exactly two decimal places**.
+
+## Constraints
+
+- `1 ≤ doctorType ≤ 3`
+- `0.0 ≤ testCharges ≤ 100000.0`
+
+## Sample Input
+
+```text
+3
+2500.0
+```
+
+## Sample Output
+
+```text
+Doctor Type: Emergency Doctor
+Consultation Charge: 1500.00
+Test Charges: 2500.00
+Total Bill: 4000.00
+```
+
+## Solution
+
+import java.util.Scanner;
+
+abstract class Doctor {
+    double consultationCharge;
+
+    Doctor(double charge) {
+        consultationCharge = charge;
+    }
+
+    abstract String getDoctorType();
+
+    double calculateTotalBill(double testCharges) {
+        return consultationCharge;
+    }
+}
+
+class GeneralPhysician extends Doctor {
+    GeneralPhysician() {
+        super(500.0);
+    }
+
+    String getDoctorType() {
+        return "General Physician";
+    }
+}
+
+class Specialist extends Doctor {
+    Specialist() {
+        super(1000.0);
+    }
+
+    String getDoctorType() {
+        return "Specialist";
+    }
+}
+
+class EmergencyDoctor extends Doctor {
+    EmergencyDoctor() {
+        super(1500.0);
+    }
+
+    String getDoctorType() {
+        return "Emergency Doctor";
+    }
+
+    double calculateTotalBill(double testCharges) {
+        return consultationCharge + testCharges;
+    }
+}
+
+public class Hospital-Billing-System {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int type = sc.nextInt();
+        double testCharges = sc.nextDouble();
+
+        Doctor d;
+
+        if (type == 1) {
+            d = new GeneralPhysician();
+        } else if (type == 2) {
+            d = new Specialist();
+        } else {
+            d = new EmergencyDoctor();
+        }
+
+        System.out.println("Doctor Type: " + d.getDoctorType());
+        System.out.printf("Consultation Charge: %.2f%n", d.consultationCharge);
+        System.out.printf("Test Charges: %.2f%n", testCharges);
+        System.out.printf("Total Bill: %.2f%n", d.calculateTotalBill(testCharges));
+
+        sc.close();
+    }
+}
