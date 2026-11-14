@@ -1,0 +1,159 @@
+#  Vehicle Rental System
+
+## Problem Statement
+
+A vehicle rental company rents cars, bikes, and trucks. Each vehicle type has a different daily rental rate.
+
+Design the program using the following OOPS structure:
+
+### Base Class: `Vehicle`
+
+Create a base class named `Vehicle`.
+
+**Field:**
+- `double dailyRate`
+
+**Constructor:**
+- Create a constructor to initialize `dailyRate`.
+
+**Methods:**
+
+```java
+double calculateRentalCharge(int rentalDays)
+String getVehicleType()
+```
+
+### Derived Classes
+
+Create the following derived classes:
+
+- `Car`
+- `Bike`
+- `Truck`
+
+### Daily Rental Rates
+
+| Vehicle Type | Daily Rate |
+|---|---:|
+| Car | 1500.0 |
+| Bike | 600.0 |
+| Truck | 3000.0 |
+
+### Implementation Requirements
+
+Each derived class must:
+
+- Call the parent constructor using `super()`.
+- Override `getVehicleType()`.
+
+The rental charge must be calculated using the inherited `calculateRentalCharge()` method.
+
+Use a `Vehicle` reference in `main()` to demonstrate **runtime polymorphism**.
+
+## Input Format
+
+- The first line contains an integer `vehicleType`.
+  - `1` represents Car.
+  - `2` represents Bike.
+  - `3` represents Truck.
+- The second line contains `rentalDays` as an integer.
+
+## Output Format
+
+Print the following:
+
+- Vehicle type as a string.
+- Rental charge as a **double formatted to exactly two decimal places**.
+
+## Constraints
+
+- `1 ≤ vehicleType ≤ 3`
+- `1 ≤ rentalDays ≤ 30`
+
+## Sample Input
+
+```text
+1
+5
+```
+
+## Sample Output
+
+```text
+Vehicle Type: Car
+Rental Charge: 7500.00
+```
+
+## Solution
+import java.util.Scanner;
+
+class Vehicle {
+    double dailyRate;
+
+    Vehicle(double rate) {
+        dailyRate = rate;
+    }
+
+    double calculateRentalCharge(int rentalDays) {
+        return dailyRate * rentalDays;
+    }
+
+    String getVehicleType() {
+        return "Vehicle";
+    }
+}
+
+class Car extends Vehicle {
+    Car() {
+        super(1500.0);
+    }
+
+    String getVehicleType() {
+        return "Car";
+    }
+}
+
+class Bike extends Vehicle {
+    Bike() {
+        super(600.0);
+    }
+
+    String getVehicleType() {
+        return "Bike";
+    }
+}
+
+class Truck extends Vehicle {
+    Truck() {
+        super(3000.0);
+    }
+
+    String getVehicleType() {
+        return "Truck";
+    }
+}
+
+public class Vehicle-Rental-System{
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int type = sc.nextInt();
+        int days = sc.nextInt();
+
+        Vehicle v;
+
+        if (type == 1) {
+            v = new Car();
+        } else if (type == 2) {
+            v = new Bike();
+        } else {
+            v = new Truck();
+        }
+
+        System.out.println("Vehicle Type: " + v.getVehicleType());
+        System.out.printf("Rental Charge: %.2f%n",
+                v.calculateRentalCharge(days));
+
+        sc.close();
+    }
+}
