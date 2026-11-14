@@ -1,0 +1,164 @@
+# 10. E-Commerce Product Pricing
+
+## Problem Statement
+
+An e-commerce platform sells different categories of products. Each product category has a different discount percentage.
+
+### OOPS Design Requirements
+
+Design the program using the following OOPS structure:
+
+1. Create a base class `Product`.
+2. It must contain:
+   - `int productId`
+   - `String productName`
+   - `double price`
+3. Create a constructor to initialize all fields.
+4. Create the method:
+   - `double calculateDiscount()`
+5. Create the following derived classes:
+   - `ElectronicsProduct`
+   - `ClothingProduct`
+   - `GroceryProduct`
+
+### Discount Rules
+
+- Electronics: 12%
+- Clothing: 20%
+- Grocery: 5%
+
+Each derived class must override `calculateDiscount()`.
+
+### Final Price Calculation
+
+**Final Price = Price - Discount**
+
+**Runtime Polymorphism:** Use a `Product` reference in `main()` to demonstrate runtime polymorphism.
+
+## Input Format
+
+- The first line contains an integer `productType`.
+  - `1` represents Electronics.
+  - `2` represents Clothing.
+  - `3` represents Grocery.
+
+- The second line contains:
+
+  `productId productName price`
+
+  where `price` is a double.
+
+## Output Format
+
+Print:
+
+- Product ID as an integer.
+- Product Name as a string.
+- Discount as a double formatted to exactly two decimal places.
+- Final Price as a double formatted to exactly two decimal places.
+
+## Constraints
+
+- 1 ≤ productType ≤ 3
+- 1 ≤ productId ≤ 1000000
+- 0.0 < price ≤ 10000000.0
+- productName contains only letters.
+
+## Sample Input
+
+```text
+1
+501 Laptop 75000.0
+```
+
+## Sample Output
+
+```text
+Product ID: 501
+Product Name: Laptop
+Discount: 9000.00
+Final Price: 66000.00
+```
+
+---
+
+# Solution
+
+import java.util.Scanner;
+
+class Product {
+    int productId;
+    String productName;
+    double price;
+
+    Product(int id, String name, double price) {
+        this.productId = id;
+        this.productName = name;
+        this.price = price;
+    }
+
+    double calculateDiscount() {
+        return 0;
+    }
+}
+
+class ElectronicsProduct extends Product {
+    ElectronicsProduct(int id, String name, double price) {
+        super(id, name, price);
+    }
+
+    double calculateDiscount() {
+        return price * 12 / 100;
+    }
+}
+
+class ClothingProduct extends Product {
+    ClothingProduct(int id, String name, double price) {
+        super(id, name, price);
+    }
+
+    double calculateDiscount() {
+        return price * 20 / 100;
+    }
+}
+
+class GroceryProduct extends Product {
+    GroceryProduct(int id, String name, double price) {
+        super(id, name, price);
+    }
+
+    double calculateDiscount() {
+        return price * 5 / 100;
+    }
+}
+
+public class E-Commerce-Product-Pricing {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int type = sc.nextInt();
+        int id = sc.nextInt();
+        String name = sc.next();
+        double price = sc.nextDouble();
+
+        Product p;
+
+        if (type == 1) {
+            p = new ElectronicsProduct(id, name, price);
+        } else if (type == 2) {
+            p = new ClothingProduct(id, name, price);
+        } else {
+            p = new GroceryProduct(id, name, price);
+        }
+
+        double discount = p.calculateDiscount();
+        double finalPrice = price - discount;
+
+        System.out.println("Product ID: " + p.productId);
+        System.out.println("Product Name: " + p.productName);
+        System.out.printf("Discount: %.2f%n", discount);
+        System.out.printf("Final Price: %.2f%n", finalPrice);
+
+        sc.close();
+    }
+}
