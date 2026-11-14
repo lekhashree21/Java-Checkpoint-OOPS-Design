@@ -1,0 +1,150 @@
+# 7. Employee Access and Permission System
+
+## Problem Statement
+
+An enterprise application provides different access permissions to employees based on their roles. The system must support different implementations of the same access-control contract.
+
+Design the program using the following OOPS structure:
+
+### Interface: `AccessControl`
+
+Create an interface named `AccessControl`.
+
+The interface must contain the following methods:
+
+- `String getRole()`
+- `int getAccessLevel()`
+- `boolean canAccess(int requiredLevel)`
+
+### Implementation Classes
+
+Create the following implementation classes:
+
+- `Developer`
+- `Manager`
+- `Administrator`
+
+### Access Levels
+
+| Role | Access Level |
+|---|---:|
+| Developer | 1 |
+| Manager | 2 |
+| Administrator | 3 |
+
+The `canAccess()` method must return `true` when the employee’s access level is greater than or equal to the required access level. Otherwise, it must return `false`.
+
+Use an `AccessControl` reference to demonstrate **runtime polymorphism**.
+
+## Input Format
+
+- The first line contains an integer `roleType`.
+  - `1` represents Developer.
+  - `2` represents Manager.
+  - `3` represents Administrator.
+- The second line contains `requiredLevel` as an integer.
+
+## Output Format
+
+Print the following:
+
+- Role as a string.
+- Access level as an integer.
+- Access result as a boolean.
+
+## Constraints
+
+- `1 ≤ roleType ≤ 3`
+- `1 ≤ requiredLevel ≤ 3`
+
+## Sample Input
+
+```text
+2
+3
+```
+
+## Sample Output
+
+```text
+Role: Manager
+Access Level: 2
+Can Access: false
+```
+
+## Solution
+
+import java.util.Scanner;
+
+interface AccessControl {
+    String getRole();
+    int getAccessLevel();
+    boolean canAccess(int requiredLevel);
+}
+
+class Developer implements AccessControl {
+    public String getRole() {
+        return "Developer";
+    }
+
+    public int getAccessLevel() {
+        return 1;
+    }
+
+    public boolean canAccess(int requiredLevel) {
+        return getAccessLevel() >= requiredLevel;
+    }
+}
+
+class Manager implements AccessControl {
+    public String getRole() {
+        return "Manager";
+    }
+
+    public int getAccessLevel() {
+        return 2;
+    }
+
+    public boolean canAccess(int requiredLevel) {
+        return getAccessLevel() >= requiredLevel;
+    }
+}
+
+class Administrator implements AccessControl {
+    public String getRole() {
+        return "Administrator";
+    }
+
+    public int getAccessLevel() {
+        return 3;
+    }
+
+    public boolean canAccess(int requiredLevel) {
+        return getAccessLevel() >= requiredLevel;
+    }
+}
+
+public class Employee-Access-Permission-System {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int type = sc.nextInt();
+        int requiredLevel = sc.nextInt();
+
+        AccessControl a;
+
+        if (type == 1) {
+            a = new Developer();
+        } else if (type == 2) {
+            a = new Manager();
+        } else {
+            a = new Administrator();
+        }
+
+        System.out.println("Role: " + a.getRole());
+        System.out.println("Access Level: " + a.getAccessLevel());
+        System.out.println("Can Access: " + a.canAccess(requiredLevel));
+
+        sc.close();
+    }
+}
