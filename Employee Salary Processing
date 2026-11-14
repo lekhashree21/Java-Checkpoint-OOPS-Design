@@ -1,0 +1,155 @@
+# 1. Employee Salary Processing
+
+## Problem Statement
+
+A company payroll system maintains different types of employees. The salary calculation depends on the employee type.
+
+### OOPS Design Requirements
+
+Design the program using the following OOPS structure:
+
+1. Create an abstract base class `Employee`.
+2. The `Employee` class must contain the following private data members:
+   - `int employeeId`
+   - `String employeeName`
+3. Create a constructor in `Employee` to initialize these fields.
+4. Provide the following getter methods:
+   - `int getEmployeeId()`
+   - `String getEmployeeName()`
+5. Declare an abstract method:
+   - `double calculateSalary()`
+6. Create the following derived classes:
+   - `FullTimeEmployee`
+   - `ContractEmployee`
+
+### FullTimeEmployee
+
+- It must contain `double monthlySalary`.
+- Create a constructor to initialize all required values.
+- Override `calculateSalary()`.
+- Salary = Monthly Salary
+
+### ContractEmployee
+
+- It must contain:
+  - `int workingDays`
+  - `double dailyRate`
+- Create a constructor to initialize all required values.
+- Override `calculateSalary()`.
+- Salary = Working Days × Daily Rate
+
+**In the `main()` method:** Use an `Employee` reference to refer to the appropriate derived-class object and demonstrate runtime polymorphism.
+
+## Input Format
+
+- The first line contains an integer `employeeType`.
+  - `1` represents a full-time employee.
+  - `2` represents a contract employee.
+- The second line contains:
+  - `employeeId employeeName`
+- The third line contains:
+  - For type 1: `monthlySalary` as a double.
+  - For type 2: `workingDays` as an integer and `dailyRate` as a double.
+
+## Output Format
+
+Print:
+
+- Employee ID as an integer.
+- Employee Name as a string.
+- Salary as a double formatted to exactly two decimal places.
+
+## Constraints
+
+- 1 ≤ employeeType ≤ 2
+- 1 ≤ employeeId ≤ 100000
+- 1 ≤ workingDays ≤ 31
+- 0.0 < monthlySalary ≤ 1000000.0
+- 0.0 < dailyRate ≤ 100000.0
+- employeeName contains only letters.
+
+## Sample Input
+
+```text
+2
+105 Arun
+24 1500.0
+```
+
+## Sample Output
+
+```text
+Employee ID: 105
+Employee Name: Arun
+Salary: 36000.00
+```
+
+---
+
+# Solution
+
+import java.util.Scanner;
+
+class BankAccount {
+    int accountNumber;
+    double balance;
+
+    BankAccount(int number, double balance) {
+        this.accountNumber = number;
+        this.balance = balance;
+    }
+
+    double calculateFinalBalance() {
+        return balance;
+    }
+}
+
+class SavingsAccount extends BankAccount {
+    double interestRate;
+
+    SavingsAccount(int number, double balance, double rate) {
+        super(number, balance);
+        this.interestRate = rate;
+    }
+
+    double calculateFinalBalance() {
+        return balance + (balance * interestRate / 100);
+    }
+}
+
+class CurrentAccount extends BankAccount {
+    double overdraftLimit;
+
+    CurrentAccount(int number, double balance, double limit) {
+        super(number, balance);
+        this.overdraftLimit = limit;
+    }
+
+    double calculateFinalBalance() {
+        return balance + overdraftLimit;
+    }
+}
+
+public class Banking-Account-Management {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int type = sc.nextInt();
+        int number = sc.nextInt();
+        double balance = sc.nextDouble();
+
+        BankAccount account;
+
+        if (type == 1) {
+            double rate = sc.nextDouble();
+            account = new SavingsAccount(number, balance, rate);
+        } else {
+            double limit = sc.nextDouble();
+            account = new CurrentAccount(number, balance, limit);
+        }
+
+        System.out.printf("%.2f%n", account.calculateFinalBalance());
+
+        sc.close();
+    }
+}
