@@ -1,0 +1,180 @@
+#  Online Course Fee Calculation
+
+## Problem Statement
+
+An online learning platform offers different categories of courses. Each course category provides a different discount on the course fee.
+
+Design the program using the following OOPS structure:
+
+### Abstract Class: `Course`
+
+Create an **abstract class** named `Course`.
+
+**Field:**
+- `double courseFee`
+
+**Constructor:**
+- Create a constructor to initialize `courseFee`.
+
+**Abstract Methods:**
+
+- `double calculateDiscount()`
+- `String getCourseType()`
+
+**Concrete Method:**
+
+```java
+double calculateFinalFee()
+```
+
+**Formula:**
+
+```text
+Final Fee = Course Fee - Discount
+```
+
+### Derived Classes
+
+Create the following derived classes:
+
+- `ProgrammingCourse`
+- `DataScienceCourse`
+- `CloudCourse`
+
+### Discount Rules
+
+| Course Type | Discount |
+|---|---:|
+| Programming Course | 10% |
+| Data Science Course | 15% |
+| Cloud Course | 5% |
+
+Each derived class must override:
+
+- `calculateDiscount()`
+- `getCourseType()`
+
+Use a `Course` reference in `main()` to demonstrate **runtime polymorphism**.
+
+## Input Format
+
+- The first line contains an integer `courseType`.
+  - `1` represents Programming.
+  - `2` represents Data Science.
+  - `3` represents Cloud.
+- The second line contains `courseFee` as a `double`.
+
+## Output Format
+
+Print the following:
+
+- Course type as a string.
+- Discount as a **double formatted to exactly two decimal places**.
+- Final fee as a **double formatted to exactly two decimal places**.
+
+## Constraints
+
+- `1 ≤ courseType ≤ 3`
+- `0.0 < courseFee ≤ 1000000.0`
+
+## Sample Input
+
+```text
+2
+50000.0
+```
+
+## Sample Output
+
+```text
+Course Type: Data Science
+Discount: 7500.00
+Final Fee: 42500.00
+```
+
+## Solution
+
+import java.util.Scanner;
+
+abstract class Course {
+    double courseFee;
+
+    Course(double fee) {
+        courseFee = fee;
+    }
+
+    abstract double calculateDiscount();
+
+    abstract String getCourseType();
+
+    double calculateFinalFee() {
+        return courseFee - calculateDiscount();
+    }
+}
+
+class ProgrammingCourse extends Course {
+    ProgrammingCourse(double fee) {
+        super(fee);
+    }
+
+    double calculateDiscount() {
+        return courseFee * 10 / 100;
+    }
+
+    String getCourseType() {
+        return "Programming";
+    }
+}
+
+class DataScienceCourse extends Course {
+    DataScienceCourse(double fee) {
+        super(fee);
+    }
+
+    double calculateDiscount() {
+        return courseFee * 15 / 100;
+    }
+
+    String getCourseType() {
+        return "Data Science";
+    }
+}
+
+class CloudCourse extends Course {
+    CloudCourse(double fee) {
+        super(fee);
+    }
+
+    double calculateDiscount() {
+        return courseFee * 5 / 100;
+    }
+
+    String getCourseType() {
+        return "Cloud";
+    }
+}
+
+public class Online-Course-Fee-Calculation {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int type = sc.nextInt();
+        double fee = sc.nextDouble();
+
+        Course c;
+
+        if (type == 1) {
+            c = new ProgrammingCourse(fee);
+        } else if (type == 2) {
+            c = new DataScienceCourse(fee);
+        } else {
+            c = new CloudCourse(fee);
+        }
+
+        System.out.println("Course Type: " + c.getCourseType());
+        System.out.printf("Discount: %.2f%n", c.calculateDiscount());
+        System.out.printf("Final Fee: %.2f%n", c.calculateFinalFee());
+
+        sc.close();
+    }
+}
