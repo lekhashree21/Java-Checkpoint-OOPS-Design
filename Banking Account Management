@@ -1,0 +1,153 @@
+# 2. Banking Account Management
+
+## Problem Statement
+
+A banking application manages different types of accounts. The amount available to the customer is calculated differently for savings and current accounts.
+
+### OOPS Design Requirements
+
+Design the program using the following OOPS structure:
+
+1. Create a base class `BankAccount`.
+2. It must contain:
+   - `int accountNumber`
+   - `double balance`
+3. Create a constructor to initialize these fields.
+4. Create the method:
+   - `double calculateFinalBalance()`
+5. Create the following derived classes:
+   - `SavingsAccount`
+   - `CurrentAccount`
+
+### SavingsAccount
+
+- It must contain `double interestRate`.
+- Create a constructor to initialize all required values.
+- Override `calculateFinalBalance()`.
+
+**Formula:**
+
+`Final Balance = Balance + (Balance × Interest Rate / 100)`
+
+### CurrentAccount
+
+- It must contain `double overdraftLimit`.
+- Create a constructor to initialize all required values.
+- Override `calculateFinalBalance()`.
+
+**Formula:**
+
+`Available Amount = Balance + Overdraft Limit`
+
+**Runtime Polymorphism:** Use a `BankAccount` reference to demonstrate runtime polymorphism.
+
+## Input Format
+
+- The first line contains an integer `accountType`.
+  - `1` represents a savings account.
+  - `2` represents a current account.
+
+- The second line contains:
+
+  `accountNumber balance`
+
+  where `balance` is a double.
+
+- The third line contains:
+  - For type 1: `interestRate` as a double.
+  - For type 2: `overdraftLimit` as a double.
+
+## Output Format
+
+Print the calculated amount as a **double formatted to exactly two decimal places**.
+
+## Constraints
+
+- 1 ≤ accountType ≤ 2
+- 1 ≤ accountNumber ≤ 1000000
+- 0.0 < balance ≤ 10000000.0
+- 0.0 ≤ interestRate ≤ 20.0
+- 0.0 ≤ overdraftLimit ≤ 500000.0
+
+## Sample Input
+
+```text
+1
+50021 100000.0
+6.0
+```
+
+## Sample Output
+
+```text
+106000.00
+```
+
+---
+
+# Solution
+import java.util.Scanner;
+
+class BankAccount {
+    int accountNumber;
+    double balance;
+
+    BankAccount(int number, double balance) {
+        this.accountNumber = number;
+        this.balance = balance;
+    }
+
+    double calculateFinalBalance() {
+        return balance;
+    }
+}
+
+class SavingsAccount extends BankAccount {
+    double interestRate;
+
+    SavingsAccount(int number, double balance, double rate) {
+        super(number, balance);
+        this.interestRate = rate;
+    }
+
+    double calculateFinalBalance() {
+        return balance + (balance * interestRate / 100);
+    }
+}
+
+class CurrentAccount extends BankAccount {
+    double overdraftLimit;
+
+    CurrentAccount(int number, double balance, double limit) {
+        super(number, balance);
+        this.overdraftLimit = limit;
+    }
+
+    double calculateFinalBalance() {
+        return balance + overdraftLimit;
+    }
+}
+
+public class Banking-Account-Management {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int type = sc.nextInt();
+        int number = sc.nextInt();
+        double balance = sc.nextDouble();
+
+        BankAccount account;
+
+        if (type == 1) {
+            double rate = sc.nextDouble();
+            account = new SavingsAccount(number, balance, rate);
+        } else {
+            double limit = sc.nextDouble();
+            account = new CurrentAccount(number, balance, limit);
+        }
+
+        System.out.printf("%.2f%n", account.calculateFinalBalance());
+
+        sc.close();
+    }
+}
