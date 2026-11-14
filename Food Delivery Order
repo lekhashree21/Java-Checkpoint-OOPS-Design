@@ -1,0 +1,140 @@
+# Food Delivery Order
+
+## Problem Statement
+
+A food delivery platform provides regular and express delivery services. The delivery charge and service charge depend on the selected delivery type.
+
+Design the program using the following OOPS structure:
+
+### Base Class: `Delivery`
+
+Create a base class named `Delivery`.
+
+**Field:**
+- `double orderAmount`
+
+**Constructor:**
+- Create a constructor to initialize `orderAmount`.
+
+**Method:**
+
+```java
+double calculateDeliveryCharge()
+```
+
+### Derived Classes
+
+Create the following derived classes:
+
+- `RegularDelivery`
+- `ExpressDelivery`
+
+### RegularDelivery
+
+- Delivery charge is `40.0`.
+- Override `calculateDeliveryCharge()`.
+
+**Formula:**
+
+```text
+Final Charge = Order Amount + 40.0
+```
+
+### ExpressDelivery
+
+- Delivery charge is `80.0`.
+- A service charge of 5% is applied to the order amount.
+- Override `calculateDeliveryCharge()`.
+
+**Formula:**
+
+```text
+Final Charge = Order Amount + 80.0 + (Order Amount × 5 / 100)
+```
+
+Use a `Delivery` reference in `main()` to demonstrate **runtime polymorphism**.
+
+## Input Format
+
+- The first line contains an integer `deliveryType`.
+  - `1` represents Regular Delivery.
+  - `2` represents Express Delivery.
+- The second line contains `orderAmount` as a `double`.
+
+## Output Format
+
+Print the final delivery charge as a **double formatted to exactly two decimal places**.
+
+## Constraints
+
+- `1 ≤ deliveryType ≤ 2`
+- `0.0 < orderAmount ≤ 500000.0`
+
+## Sample Input
+
+```text
+2
+1000.0
+```
+
+## Sample Output
+
+```text
+1130.00
+```
+
+## Solution
+import java.util.Scanner;
+
+class Delivery {
+    double orderAmount;
+
+    Delivery(double amount) {
+        orderAmount = amount;
+    }
+
+    double calculateDeliveryCharge() {
+        return orderAmount;
+    }
+}
+
+class RegularDelivery extends Delivery {
+    RegularDelivery(double amount) {
+        super(amount);
+    }
+
+    double calculateDeliveryCharge() {
+        return orderAmount + 40.0;
+    }
+}
+
+class ExpressDelivery extends Delivery {
+    ExpressDelivery(double amount) {
+        super(amount);
+    }
+
+    double calculateDeliveryCharge() {
+        return orderAmount + 80.0 + (orderAmount * 5 / 100);
+    }
+}
+
+public class Food-Delivery-Order {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int type = sc.nextInt();
+        double amount = sc.nextDouble();
+
+        Delivery d;
+
+        if (type == 1) {
+            d = new RegularDelivery(amount);
+        } else {
+            d = new ExpressDelivery(amount);
+        }
+
+        System.out.printf("%.2f%n", d.calculateDeliveryCharge());
+
+        sc.close();
+    }
+}
