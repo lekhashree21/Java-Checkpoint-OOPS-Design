@@ -1,0 +1,246 @@
+# 5. Employee Performance Bonus
+
+## Problem Statement
+
+A company calculates employee bonuses differently for technical and sales employees. The payroll system must support both **method overriding** and **method overloading**.
+
+Design the program using the following OOPS structure:
+
+### Base Class: `Employee`
+
+Create a base class named `Employee`.
+
+**Field:**
+- `String employeeName`
+
+**Constructor:**
+- Create a constructor to initialize `employeeName`.
+
+**Methods:**
+- `double calculateBonus()`
+- `double calculateBonus(double amount)`
+
+The `calculateBonus()` method must be overridden by derived classes.
+
+### Derived Class: `TechnicalEmployee`
+
+**Fields:**
+- `double basicSalary`
+- `int rating`
+
+**Constructor:**
+- Constructor must initialize all fields.
+
+**Method Overriding:**
+
+Override the following method:
+
+```java
+double calculateBonus()
+```
+
+**Formula:**
+
+```text
+Bonus = Basic Salary × Rating × 2 / 100
+```
+
+**Method Overloading:**
+
+Also create the overloaded method:
+
+```java
+double calculateBonus(double salary, int employeeRating)
+```
+
+### Derived Class: `SalesEmployee`
+
+**Field:**
+- `double salesAmount`
+
+**Constructor:**
+- Constructor must initialize all fields.
+
+**Method Overriding:**
+
+Override the following method:
+
+```java
+double calculateBonus()
+```
+
+**Formula:**
+
+```text
+Bonus = Sales Amount × 3 / 100
+```
+
+**Method Overloading:**
+
+Also create the overloaded method:
+
+```java
+double calculateBonus(double amount)
+```
+
+The overloaded method must calculate the bonus as 3% of the supplied amount.
+
+Use an `Employee` reference in `main()` to demonstrate **runtime polymorphism**.
+
+## Input Format
+
+The first line contains an integer `employeeType`.
+
+- `1` represents Technical Employee.
+- `2` represents Sales Employee.
+
+For **type 1**, the second line contains:
+
+```text
+employeeName basicSalary rating
+```
+
+For **type 2**, the second line contains:
+
+```text
+employeeName salesAmount
+```
+
+**Data Types:**
+- `basicSalary` and `salesAmount` are `double` values.
+- `rating` is an integer.
+
+## Output Format
+
+Print the following:
+
+- Employee name as a string.
+- Bonus as a **double formatted to exactly two decimal places**.
+- Total earnings as a **double formatted to exactly two decimal places**.
+
+### Total Earnings Calculation
+
+**For a Technical Employee:**
+
+```text
+Total Earnings = Basic Salary + Bonus
+```
+
+**For a Sales Employee:**
+
+```text
+Total Earnings = Sales Amount + Bonus
+```
+
+## Constraints
+
+- `1 ≤ employeeType ≤ 2`
+- `0.0 < basicSalary ≤ 1000000.0`
+- `0.0 < salesAmount ≤ 5000000.0`
+- `1 ≤ rating ≤ 5`
+- `employeeName` contains only letters.
+
+## Sample Input
+
+```text
+1
+Kumar 50000.0 4
+```
+
+## Sample Output
+
+```text
+Employee Name: Kumar
+Bonus: 4000.00
+Total Earnings: 54000.00
+```
+
+## Solution
+import java.util.Scanner;
+
+class Employee {
+    String employeeName;
+
+    Employee(String name) {
+        employeeName = name;
+    }
+
+    double calculateBonus() {
+        return 0;
+    }
+
+    double calculateBonus(double amount) {
+        return 0;
+    }
+}
+
+class TechnicalEmployee extends Employee {
+    double basicSalary;
+    int rating;
+
+    TechnicalEmployee(String name, double salary, int rating) {
+        super(name);
+        this.basicSalary = salary;
+        this.rating = rating;
+    }
+
+    double calculateBonus() {
+        return basicSalary * rating * 2 / 100;
+    }
+
+    double calculateBonus(double salary, int employeeRating) {
+        return salary * employeeRating * 2 / 100;
+    }
+}
+
+class SalesEmployee extends Employee {
+    double salesAmount;
+
+    SalesEmployee(String name, double amount) {
+        super(name);
+        this.salesAmount = amount;
+    }
+
+    double calculateBonus() {
+        return salesAmount * 3 / 100;
+    }
+
+    double calculateBonus(double amount) {
+        return amount * 3 / 100;
+    }
+}
+
+public class Employee-Performance-Bonus {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int type = sc.nextInt();
+        String name = sc.next();
+
+        Employee e;
+        double total;
+        double bonus;
+
+        if (type == 1) {
+            double salary = sc.nextDouble();
+            int rating = sc.nextInt();
+
+            e = new TechnicalEmployee(name, salary, rating);
+            bonus = e.calculateBonus();
+            total = salary + bonus;
+
+        } else {
+            double amount = sc.nextDouble();
+
+            e = new SalesEmployee(name, amount);
+            bonus = e.calculateBonus();
+            total = amount + bonus;
+        }
+
+        System.out.println("Employee Name: " + name);
+        System.out.printf("Bonus: %.2f%n", bonus);
+        System.out.printf("Total Earnings: %.2f%n", total);
+
+        sc.close();
+    }
+}
